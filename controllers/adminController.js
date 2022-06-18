@@ -6,6 +6,8 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const {withAuth} = require('../utils/tokenAuth');
 
+// localhost:3001/api/admin
+
 router.get("/",(req,res)=>{
     Admin.findAll({
         include:[Staff]
@@ -22,7 +24,7 @@ router.get("/verifyToken",withAuth,(req,res)=>{
 })
 router.get("/:id",(req,res)=>{
     Admin.findByPk(req.params.id,{
-        include:[Shift,Dept]
+        // include:[Shift,Dept]
     })
     .then(admin=>{
         if(!admin) {
@@ -75,40 +77,41 @@ router.post("/login",(req,res)=>{
     })
 })
 // TODO: make this update route match the model
-router.put('/:id', (req,res) => {
-    Admin.update(
-        {
-            // All the fields you can update and the data attached to the request body.
-            username: req.body.username,
-            password: req.body.password,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            phone_number: req.body.phone_number,
-            notes: req.body.notes
-        },
-        {
+router.put('/:id', withAuth, (req,res) => {
+    Admin.update(req.body,{
             where: {
-                id: req.body.id,
+                id: req.params.id,
             },
         }
     )
-        .then((updatedAdmin) => {
-            res.json(updatedAdmin);
-        })
-        .catch((err) => res.json(err));
+    .then(updatedAdmin=>{
+        if(!updatedAdmin[0]){
+            return res.status(404).json({msg:"no such Admin"})
+        }
+        res.json(updatedAdmin)
+     }).catch(err=>{
+        console.log(err);
+        res.status(500).json({msg:"an error occured",err})
+    })
 })
 
 // TODO: make sure delete route works
-router.delete('/:id', (req,res) => {
+router.delete('/:id', withAuth, (req,res) => {
     Admin.destroy({
         where: {
-            id: req.body.id,
+            id: req.params.id,
         },
     })
-        .then((deletedAdmin) => {
-            res.json(deletedAdmin);
-        })
-        .catch((err) => res.json(err));
+    .then((delAdmin) => {
+        if (!delAdmin) {
+          return res.status(404).json({ msg: "no such Admin" });
+        }
+        res.json(delAdmin);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ msg: "an error occured", err });
+      });
 })
 
 module.exports = router;
