@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {Staff,Dept,Shift} = require('../models');
+const {Staff} = require('../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const {withAuth} = require('../utils/tokenAuth');
 
+// localhost:3001/api/staff
+
 router.get("/",(req,res)=>{
     Staff.findAll({
-        include:[Shift,Dept]
+        // include:[Shift,Dept]
     })
     .then(staff=>{
         res.json(staff)
@@ -22,7 +24,7 @@ router.get("/verifyToken",withAuth,(req,res)=>{
 })
 router.get("/:id",(req,res)=>{
     Staff.findByPk(req.params.id,{
-        include:[Shift,Dept]
+        // include:[Shift,Dept]
     })
     .then(staff=>{
         if(!staff) {
@@ -60,7 +62,7 @@ router.post("/login",(req,res)=>{
         if(!foundStaff){
             return res.status(401).json({msg:"invalid login credentials"})
         }
-        if(bcrypt.compareSync(req.body.password,foundStaff.password)){
+        if(bcrypt.compareSync(req.body.keycode,foundStaff.keycode)){
             const token = jwt.sign({
                 staffId:foundStaff.id
             },process.env.JWT_SECRET,{
@@ -74,41 +76,40 @@ router.post("/login",(req,res)=>{
         return res.status(401).json({msg:"invalid login credentials"})
     })
 })
-// TODO: make this update route match the model
-router.put('/:id', (req,res) => {
-    Staff.update(
-        {
-            // All the fields you can update and the data attached to the request body.
-            name: req.body.name,
-            position: req.body.position,
-            phone_number: req.body.phone_number,
-            on_call: req.body.on_call,
-            special_training: req.body.special_training,
-            privilege: req.body.privilege,
-        },
-        {
+router.put('/:id', withAuth, (req,res) => {
+    Staff.update(req.body,{
             where: {
-                id: req.body.id,
+                id: req.params.id,
             },
         }
     )
-        .then((updatedStaff) => {
-            res.json(updatedStaff);
-        })
-        .catch((err) => res.json(err));
+    .then(updatedStaff=>{
+        if(!updatedStaff[0]){
+            return res.status(404).json({msg:"no such Staff"})
+        }
+        res.json(updatedStaff)
+     }).catch(err=>{
+        console.log(err);
+        res.status(500).json({msg:"an error occured",err})
+    })
 })
 
-// TODO: make sure delete route works
-router.delete('/:id', (req,res) => {
+router.delete('/:id', withAuth, (req,res) => {
     Staff.destroy({
         where: {
-            id: req.body.id,
+            id: req.params.id,
         },
     })
-        .then((deletedStaff) => {
-            res.json(deletedStaff);
-        })
-        .catch((err) => res.json(err));
+    .then((delStaff) => {
+        if (!delStaff) {
+          return res.status(404).json({ msg: "no such Staff" });
+        }
+        res.json(delStaff);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({ msg: "an error occured", err });
+      });
 })
 
 module.exports = router;

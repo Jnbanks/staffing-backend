@@ -76,7 +76,6 @@ router.post("/login",(req,res)=>{
         return res.status(401).json({msg:"invalid login credentials"})
     })
 })
-// TODO: make this update route match the model
 router.put('/:id', withAuth, (req,res) => {
     Admin.update(req.body,{
             where: {
@@ -95,7 +94,6 @@ router.put('/:id', withAuth, (req,res) => {
     })
 })
 
-// TODO: make sure delete route works
 router.delete('/:id', withAuth, (req,res) => {
     Admin.destroy({
         where: {
