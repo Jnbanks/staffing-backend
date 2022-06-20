@@ -35,22 +35,10 @@ Admin.init({
         type: DataTypes.STRING(35),
         allowNull: false,
     },
-    // position: {
-    //     type: DataTypes.STRING(50),
-    //     allowNull: false,
-    // },
     phone_number: {
         type: DataTypes.STRING(12),
         allowNull: false,
     },
-    // on_call: {
-    //     type: DataTypes.BOOLEAN,
-    //     allowNull: false,
-    // },
-    // special_training: {
-    //     type: DataTypes.STRING(255),
-    //     allowNull: true
-    // },
     notes: {
         type: DataTypes.STRING(1000),
         allowNull: true

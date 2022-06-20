@@ -17,10 +17,14 @@ Staff.init({
         unique: true
     },
     keycode: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         validate:{
-            len:[4]
+            validateKeycode: function(keycode) {
+                if(!(/^(?=.*\d)[\d]{4,8}$/.test(keycode))) {
+                    throw new Error('The keycode must contain at least 4 and maximum 8 numbers only.');
+                }
+            }
         }
     },
     first_name: { 
@@ -55,7 +59,7 @@ Staff.init({
     sequelize,
     hooks:{
         beforeCreate: newStaff=>{
-            newStaff.key_code = bcrypt.hashSync(newStaff.key_code,3)
+            newStaff.keycode = bcrypt.hashSync(newStaff.keycode,5)
             return newStaff
         }
     }
