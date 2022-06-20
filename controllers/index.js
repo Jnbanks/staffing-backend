@@ -7,11 +7,11 @@ router.use("/api/admin",adminRoutes)
 const staffRoutes = require("./staffController")
 router.use("/api/staff",staffRoutes)
 
-// const deptRoutes = require("./deptController")
-// router.use("/api/depts",deptRoutes)
+const deptRoutes = require("./deptController")
+router.use("/api/depts",deptRoutes)
 
-// const shiftRoutes = require("./shiftController")
-// router.use("/api/shifts",shiftRoutes)
+const shiftRoutes = require("./shiftController")
+router.use("/api/shifts",shiftRoutes)
 
 
 module.exports = router;
