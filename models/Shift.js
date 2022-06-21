@@ -2,9 +2,9 @@ const { Staff, Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-class Shifts extends Model {}
+class Shift extends Model {}
 
-Shifts.init({
+Shift.init({
     startTime: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -12,9 +12,9 @@ Shifts.init({
     endTime: { 
         type: DataTypes.DATE,
         allowNull: false,
-    }
+    },
 },{
     sequelize
 })
 
-module.exports=Shifts;
+module.exports=Shift;
