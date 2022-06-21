@@ -11,7 +11,7 @@ require("dotenv").config();
 
 router.get("/",(req,res)=>{
     Staff.findAll({
-        // include:[Shift, Department]
+        include:[Shift]
     })
     .then(staff=>{
         res.json(staff)
@@ -21,11 +21,11 @@ router.get("/",(req,res)=>{
     })
 })
 router.get("/verifyToken",withAuth,(req,res)=>{
-    res.json({staffId:req.staff})
+    res.json({StaffId:req.staff})
 })
 router.get("/:id",(req,res)=>{
     Staff.findByPk(req.params.id,{
-        // include:[Shift, Department]
+        include:[Shift]
     })
     .then(staff=>{
         if(!staff) {

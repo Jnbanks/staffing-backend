@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const {Shift, Staff, Admin, Department} = require("../models");
-const {withAuth} = require("../utils/tokenAuth")
+const {Shift, Staff, Department} = require("../models");
+const {withAuth} = require("../utils/tokenAuth");
+require("dotenv").config();
 
-
+//find all shifts
 router.get("/", (req, res) => {
-  Shift.findAll()
+  Shift.findAll({
+    include:[ Staff ]
+    })
     .then((shifts) => {
       res.json(shifts);
     })
@@ -14,9 +17,11 @@ router.get("/", (req, res) => {
       res.status(500).json({ msg: "an error occured", err });
     });
 });
+
+//find one shift
 router.get("/:id", (req, res) => {
   Shift.findByPk(req.params.id, {
-    include: [Staff, Department],
+    include: [ Staff ],
   })
     .then((shift) => {
       if (!shift) {
@@ -30,14 +35,13 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", withAuth, (req, res) => {
-  //TODO: protecc route, get UserId from token
+router.post("/", (req, res) => {
+  //TODO: protect route, get UserId from token
 //   console.log(req.user)
   Shift.create({
-      department_id:req.body.department.id,
       startTime:req.body.startTime,
       endTime:req.body.endTime,
-      StaffId: req.body.staff.id
+      StaffId: req.params.id
   })
     .then((newShift) => {
       res.json(newShift);
