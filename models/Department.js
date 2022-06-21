@@ -5,10 +5,10 @@ class Department extends Model {}
 
 Department.init({
     id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
+        primaryKey: true
     },
     name: {
         type: DataTypes.STRING,

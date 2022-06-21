@@ -5,12 +5,13 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const {withAuth} = require('../utils/tokenAuth');
+require("dotenv").config();
 
 // localhost:3001/api/staff
 
 router.get("/",(req,res)=>{
     Staff.findAll({
-        include:[Shift,Department]
+        // include:[Shift, Department]
     })
     .then(staff=>{
         res.json(staff)
@@ -24,7 +25,7 @@ router.get("/verifyToken",withAuth,(req,res)=>{
 })
 router.get("/:id",(req,res)=>{
     Staff.findByPk(req.params.id,{
-        include:[Shift,Department]
+        // include:[Shift, Department]
     })
     .then(staff=>{
         if(!staff) {
@@ -37,9 +38,10 @@ router.get("/:id",(req,res)=>{
     })
 })
 router.post("/",(req,res)=>{
-    Staff.create(req.body).then(newStaff=>{
+    Staff.create(req.body)
+    .then(newStaff=>{
         const token = jwt.sign({
-            staffId:newStaff.id
+            StaffId: newStaff.id
         },process.env.JWT_SECRET,{
             expiresIn:"24h"
         })
