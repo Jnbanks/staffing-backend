@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Staff} = require('../models');
+const {Staff, Shift, Department} = require('../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
@@ -10,7 +10,7 @@ const {withAuth} = require('../utils/tokenAuth');
 
 router.get("/",(req,res)=>{
     Staff.findAll({
-        // include:[Shift,Dept]
+        include:[Shift,Department]
     })
     .then(staff=>{
         res.json(staff)
@@ -24,7 +24,7 @@ router.get("/verifyToken",withAuth,(req,res)=>{
 })
 router.get("/:id",(req,res)=>{
     Staff.findByPk(req.params.id,{
-        // include:[Shift,Dept]
+        include:[Shift,Department]
     })
     .then(staff=>{
         if(!staff) {
