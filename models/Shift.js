@@ -5,12 +5,6 @@ const bcrypt = require('bcrypt');
 class Shifts extends Model {}
 
 Shifts.init({
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-    },
     startTime: {
         type: DataTypes.DATE,
         allowNull: false,
