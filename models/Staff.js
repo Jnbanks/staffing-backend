@@ -6,26 +6,15 @@ class Staff extends Model {}
 
 Staff.init({
     id: {
-        allowNull: false,
+        type: DataTypes.INTEGER,
+        allowNull: true,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
     },
     username: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-    },
-    keycode: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate:{
-            validateKeycode: function(keycode) {
-                if(!(/^(?=.*\d)[\d]{4,8}$/.test(keycode))) {
-                    throw new Error('The keycode must contain at least 4 and maximum 8 numbers only.');
-                }
-            }
-        }
     },
     first_name: { 
         type: DataTypes.STRING(35),
@@ -39,13 +28,17 @@ Staff.init({
         type: DataTypes.STRING(50),
         allowNull: false,
     },
+    keycode: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     phone_number: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
     on_call: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
     },
     special_training: {
         type: DataTypes.STRING(255),
@@ -57,12 +50,12 @@ Staff.init({
     }
 },{
     sequelize,
-    hooks:{
-        beforeCreate: newStaff=>{
-            newStaff.keycode = bcrypt.hashSync(newStaff.keycode,5)
-            return newStaff
-        }
-    }
+    // hooks:{
+    //     beforeCreate: newStaff=>{
+    //         newStaff.keycode = bcrypt.hashSync(newStaff.keycode,5)
+    //         return newStaff
+    //     }
+    // }
 })
 
 module.exports=Staff;

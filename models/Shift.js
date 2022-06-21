@@ -13,14 +13,6 @@ Shifts.init({
         type: DataTypes.DATE,
         allowNull: false,
     }
-    // staff_id: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     unique: true,
-    //     primaryKey: (id),
-    //     foreignKey: (Staff_id),
-    //     references: Staff(id)
-    // }
 },{
     sequelize
 })
