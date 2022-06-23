@@ -1,20 +1,34 @@
-const { Staff, Model, DataTypes } = require('sequelize');
+const { Staff, Model, Department, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-class Shift extends Model {}
+class Shift extends Model { }
 
 Shift.init({
     startTime: {
         type: DataTypes.DATE,
         allowNull: false,
     },
-    endTime: { 
+    endTime: {
         type: DataTypes.DATE,
         allowNull: false,
     },
-},{
+    StaffId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Staff, // 'Staff' would also work
+            key: "id"
+        }
+    },
+    DepartmentId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Department, // 'Staff' would also work
+            key: "id"
+        }
+    }
+}, {
     sequelize
 })
 
-module.exports=Shift;
+module.exports = Shift;
