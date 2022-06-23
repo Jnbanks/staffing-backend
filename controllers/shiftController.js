@@ -7,7 +7,7 @@ require("dotenv").config();
 //find all shifts
 router.get("/", (req, res) => {
   Shift.findAll({
-    include:[ Staff ]
+    include:[ Staff, Department ]
     })
     .then((shifts) => {
       res.json(shifts);
@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
 //find one shift
 router.get("/:id", (req, res) => {
   Shift.findByPk(req.params.id, {
-    include: [ Staff ],
+    include: [ Staff, Department ],
   })
     .then((shift) => {
       if (!shift) {
@@ -41,7 +41,8 @@ router.post("/", (req, res) => {
   Shift.create({
       startTime:req.body.startTime,
       endTime:req.body.endTime,
-      StaffId: req.params.id
+      StaffId: req.body.StaffId,
+      DepartmentId: req.body.DepartmentId
   })
     .then((newShift) => {
       res.json(newShift);

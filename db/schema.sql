@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS SChildrens_db;
-CREATE DATABASE  SChildrens_db;
+DROP DATABASE IF EXISTS schildrens_db;
+CREATE DATABASE  schildrens_db;

@@ -32,11 +32,10 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   //TODO: protecc route, get UserId from token
 //   console.log(req.user)
-  Department.create(req.body
-    //   department_id:req.body.department_id,
-    //   name:req.body.name,
-
-  )
+  Department.create(req.body, {
+    // department_id:req.body.department_id,
+    name:req.body.name,
+  })
     .then((newDepartment) => {
       res.json(newDepartment);
     })
