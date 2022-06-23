@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {Department} = require("../models");
+const {Department, Shift, Staff} = require("../models");
 const {withAuth} = require("../utils/tokenAuth")
 
 // localhost:3001/api/depts
 router.get("/", (req, res) => {
-  Department.findAll()
+  Department.findAll({
+    include:[ Staff, Shift ]
+    })
     .then((departments) => {
       res.json(departments);
     })
@@ -16,7 +18,8 @@ router.get("/", (req, res) => {
 });
 router.get("/:id", (req, res) => {
   Department.findByPk(req.params.id, {
-  })
+    include:[ Staff, Shift ]
+    })
     .then((department) => {
       if (!department) {
         return res.status(404).json({ msg: "no record found!" });
