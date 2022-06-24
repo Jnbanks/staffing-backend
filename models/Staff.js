@@ -44,6 +44,10 @@ Staff.init({
         type: DataTypes.STRING(255),
         allowNull: true
     },
+    //hire_date: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    // }
     notes: {
         type: DataTypes.STRING(1000),
         allowNull: true
