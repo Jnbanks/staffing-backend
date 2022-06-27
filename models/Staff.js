@@ -5,25 +5,29 @@ const bcrypt = require('bcrypt');
 class Staff extends Model {}
 
 Staff.init({
-    id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        autoIncrement: true,
-        primaryKey: true,
-    },
-    username: {
+    // id: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true,
+    //     autoIncrement: true,
+    //     primaryKey: true,
+    // },
+    // username: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false,
+    //     unique: true
+    // },
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
-    first_name: { 
-        type: DataTypes.STRING(35),
-        allowNull: false,
-    },
-    last_name: {
-        type: DataTypes.STRING(35),
-        allowNull: false,
-    },
+    // first_name: { 
+    //     type: DataTypes.STRING(35),
+    //     allowNull: false,
+    // },
+    // last_name: {
+    //     type: DataTypes.STRING(35),
+    //     allowNull: false,
+    // },
     position: {
         type: DataTypes.STRING(50),
         allowNull: false,
@@ -32,7 +36,7 @@ Staff.init({
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    phone_number: {
+    phoneNumber: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },

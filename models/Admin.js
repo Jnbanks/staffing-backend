@@ -5,11 +5,15 @@ const bcrypt = require('bcrypt');
 class Admin extends Model {}
 
 Admin.init({
-    id: {
-        type: DataTypes.INTEGER,
+    // id: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     autoIncrement: true,
+    //     primaryKey: true,
+    // },
+    name: { 
+        type: DataTypes.STRING,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
     },
     username: {
         type: DataTypes.STRING,
@@ -21,28 +25,16 @@ Admin.init({
         allowNull: false,
         validate: {
             validatePassword: function(password) {
-                          if(!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,32}$/.test(password))) {
+                          if(!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{3,32}$/.test(password))) {
                               throw new Error('The password must contain at least 12 and maximum 32 characters including at least 1 uppercase, 1 lowercase, one number and one special character.');
                           }
                       }
                   },
     },
-    first_name: { 
-        type: DataTypes.STRING(35),
-        allowNull: false,
-    },
-    last_name: {
-        type: DataTypes.STRING(35),
-        allowNull: false,
-    },
-    phone_number: {
+    phoneNumber: {
         type: DataTypes.STRING(12),
         allowNull: false,
     },
-    notes: {
-        type: DataTypes.STRING(1000),
-        allowNull: true
-    }
 },{
     sequelize,
     hooks:{

@@ -24,7 +24,7 @@ router.get("/verifyToken",withAuth,(req,res)=>{
 })
 router.get("/:id",(req,res)=>{
     Admin.findByPk(req.params.id,{
-        // include:[Shift,Dept]
+        include:[Staff]
     })
     .then(admin=>{
         if(!admin) {
